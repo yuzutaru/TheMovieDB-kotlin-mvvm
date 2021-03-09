@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class PopularData(
+data class MovieData(
     @SerializedName("adult")
     var adult: Boolean? = null,
     @SerializedName("backdrop_path")

@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Popular(
+data class Movie(
     @SerializedName("page")
     var page: Int? = null,
     @SerializedName("results")
-    var popularData: List<PopularData>? = null,
+    var movieData: List<MovieData>? = null,
     @SerializedName("total_pages")
     var totalPages: Int? = null,
     @SerializedName("total_results")
