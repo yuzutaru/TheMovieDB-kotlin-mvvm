@@ -2,6 +2,7 @@ package com.yuzu.themoviedb.view.activity
 
 import android.os.Bundle
 import com.yuzu.themoviedb.R
+import com.yuzu.themoviedb.view.fragment.MainMenuFragment
 
 /**
  * Created by Yustar Pramudana on 10/03/2021
@@ -13,11 +14,11 @@ class MainActivity: BaseViewActivity() {
 
         setContentView(R.layout.activity_main)
 
-        /*if (savedInstanceState == null) {
+        if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_content,
-                    UserFragment()
+                    MainMenuFragment()
                 ).commit()
-        }*/
+        }
     }
 }
