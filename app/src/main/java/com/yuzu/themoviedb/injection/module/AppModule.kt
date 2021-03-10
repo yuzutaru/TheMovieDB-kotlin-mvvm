@@ -29,7 +29,7 @@ import javax.net.ssl.X509TrustManager
  */
 
 @Module
-class AppModule(private val app: Application) {
+open class AppModule(private val app: Application) {
     @Provides
     fun app(): Application {
         return app
