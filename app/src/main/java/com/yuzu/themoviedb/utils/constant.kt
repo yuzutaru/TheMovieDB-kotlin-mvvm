@@ -10,3 +10,5 @@ const val RETRY_DELAY = 800L
 
 const val BASE_URL = "https://api.themoviedb.org/3/movie/"
 const val API_KEY = "3f931287d4b9ed0e2b5eea0c6898a205"
+
+const val BOTTOM_SHEET_DIALOG = "BOTTOM_SHEET_DIALOG"

@@ -2,4 +2,8 @@
     <string name="app_name">The Movie Database</string>
     <string name="category">Category</string>
 
+    <!--Item Menu-->
+    <string name="popular">Popular</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="now_playing">Now Playing</string>
 </resources>
