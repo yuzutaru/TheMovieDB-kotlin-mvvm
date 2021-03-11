@@ -10,6 +10,7 @@ buildscript {
     ext.room_version = '2.2.6'
     ext.databinding_version = '3.5.0'
     ext.mockK_version = '1.10.6'
+    ext.paging_version = '2.1.2'
 
     repositories {
         google()
