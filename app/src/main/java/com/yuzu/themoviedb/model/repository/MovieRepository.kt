@@ -8,7 +8,7 @@ import io.reactivex.Single
  */
 
 interface MovieRepository {
-    fun popular(apiKey: String): Single<Movie>
+    fun popular(page: Int, apiKey: String): Single<Movie>
     fun topRated(apiKey: String): Single<Movie>
     fun nowPlaying(apiKey: String): Single<Movie>
 }

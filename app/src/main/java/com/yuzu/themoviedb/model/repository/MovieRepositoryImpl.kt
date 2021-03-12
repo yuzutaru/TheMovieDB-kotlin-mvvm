@@ -9,8 +9,8 @@ import io.reactivex.Single
  */
 
 class MovieRepositoryImpl(private val api: MovieAPI): MovieRepository {
-    override fun popular(apiKey: String): Single<Movie> {
-        return api.popular(apiKey)
+    override fun popular(page: Int, apiKey: String): Single<Movie> {
+        return api.popular(page, apiKey)
     }
 
     override fun topRated(apiKey: String): Single<Movie> {

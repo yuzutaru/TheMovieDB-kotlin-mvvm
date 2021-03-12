@@ -14,7 +14,7 @@ interface MovieAPI {
      * Popular
      * */
     @GET(value = "popular")
-    fun popular(@Query("api_key") apiKey: String): Single<Movie>
+    fun popular(@Query("page") page: Int, @Query("api_key") apiKey: String): Single<Movie>
 
     /**
      * Top Rated
