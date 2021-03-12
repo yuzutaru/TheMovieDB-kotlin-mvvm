@@ -24,7 +24,7 @@ class MovieViewHolder(private val viewModel: MainMenuViewModel, view: View): Rec
         return MovieViewHolder(viewModel, view)
     }
 
-    fun bind(i: Int, data: MovieData?) {
+    fun bind(data: MovieData?) {
         if (data != null) {
             Glide.with(itemView).load(IMG_URL + data.posterPath).diskCacheStrategy(DiskCacheStrategy.DATA).into(binding.photo)
 
@@ -33,7 +33,7 @@ class MovieViewHolder(private val viewModel: MainMenuViewModel, view: View): Rec
             binding.overview.text = data.overview
 
             binding.background.setOnClickListener {
-
+                viewModel.itemOnClick(data)
             }
         }
     }

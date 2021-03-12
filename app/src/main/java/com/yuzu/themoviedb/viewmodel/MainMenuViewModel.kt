@@ -1,5 +1,6 @@
 package com.yuzu.themoviedb.viewmodel
 
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -16,7 +17,6 @@ import com.yuzu.themoviedb.model.data.MovieData
 import com.yuzu.themoviedb.model.datasource.MovieDataSource
 import com.yuzu.themoviedb.model.datasource.MovieDataSourceFactory
 import com.yuzu.themoviedb.model.repository.MovieRepository
-import com.yuzu.themoviedb.utils.ARGUMENT_POPULAR
 import com.yuzu.themoviedb.view.adapter.MovieAdapter
 import io.reactivex.disposables.CompositeDisposable
 
@@ -32,12 +32,14 @@ class MainMenuViewModel: ViewModel() {
     private val movieRepository: MovieRepository
     private var movieDataSourceFactory: MovieDataSourceFactory? = null
 
+    private val movieData = MutableLiveData<MovieData>()
+    fun movieDataLive(): LiveData<MovieData> = movieData
+
     var moviePagedList: LiveData<PagedList<MovieData>>
     var type = MutableLiveData<String>()
     private val pageSize = 5
 
-    init
-    {
+    init {
         val appComponent = TheMovieDBApplication.instance.getAppComponent()
         movieRepository = appComponent.movieRepository()
 
@@ -96,5 +98,10 @@ class MainMenuViewModel: ViewModel() {
         if (!listIsEmpty()) {
             movieAdapter.setState(state)
         }
+    }
+
+    fun itemOnClick(data: MovieData) {
+        Log.e(LOG_TAG, "itemOnClick:data: ${data.title}")
+        movieData.value = data
     }
 }

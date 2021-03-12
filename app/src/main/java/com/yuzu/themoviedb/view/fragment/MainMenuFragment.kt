@@ -6,14 +6,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.yuzu.themoviedb.R
 import com.yuzu.themoviedb.databinding.FragmentMainMenuBinding
-import com.yuzu.themoviedb.utils.ARGUMENT_NOW_PLAYING
-import com.yuzu.themoviedb.utils.ARGUMENT_POPULAR
-import com.yuzu.themoviedb.utils.ARGUMENT_TOP_RATED
-import com.yuzu.themoviedb.utils.BOTTOM_SHEET_DIALOG
+import com.yuzu.themoviedb.model.data.MovieData
+import com.yuzu.themoviedb.utils.*
+import com.yuzu.themoviedb.view.activity.MainActivity
 import com.yuzu.themoviedb.view.adapter.MovieAdapter
 import com.yuzu.themoviedb.viewmodel.MainMenuViewModel
 import java.util.*
@@ -49,6 +50,8 @@ class MainMenuFragment: Fragment() {
         categoryOnClick()
         initAdapter()
         initState()
+
+        viewModel.movieDataLive().observe(viewLifecycleOwner, { movieDetail(it) })
     }
 
     private fun initAdapter() {
@@ -103,5 +106,11 @@ class MainMenuFragment: Fragment() {
     fun nowPlayingOnClick() {
         Log.d(LOG_TAG, "popUpOnItemClick:NOW_PLAYING OnClick")
         viewModel.type.value = ARGUMENT_NOW_PLAYING
+    }
+
+    fun movieDetail(data: MovieData) {
+        Log.e(LOG_TAG, "movieDetail:data: ${data.title}")
+        val bundle = bundleOf(ARGUMENT_MOVIE_DATA to data)
+        (activity as MainActivity).replaceFragment(R.id.main_content, MovieDetailFragment(), bundle)
     }
 }

@@ -41,7 +41,7 @@ class MovieAdapter(private val viewModel: MainMenuViewModel, private val retry: 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == DATA_VIEW_TYPE)
-            (holder as MovieViewHolder).bind(position, getItem(position))
+            (holder as MovieViewHolder).bind(getItem(position))
         else (holder as SkeletonViewHolder).bind(state)
     }
 
