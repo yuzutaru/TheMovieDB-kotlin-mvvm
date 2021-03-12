@@ -10,13 +10,13 @@ import com.yuzu.themoviedb.R
 import com.yuzu.themoviedb.databinding.ItemMovieBinding
 import com.yuzu.themoviedb.model.data.MovieData
 import com.yuzu.themoviedb.utils.IMG_URL
-import com.yuzu.themoviedb.viewmodel.MainMenuViewModel
+import com.yuzu.themoviedb.viewmodel.MovieViewModel
 
 /**
  * Created by Yustar Pramudana on 12/03/2021
  */
 
-class MovieViewHolder(private val viewModel: MainMenuViewModel, view: View): RecyclerView.ViewHolder(view) {
+class MovieViewHolder(private val viewModel: MovieViewModel, view: View): RecyclerView.ViewHolder(view) {
     private val binding = ItemMovieBinding.bind(view)
 
     fun create(parent: ViewGroup): MovieViewHolder {

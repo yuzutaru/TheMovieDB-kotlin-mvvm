@@ -7,7 +7,7 @@
         <import type="android.view.View" />
         <variable
             name="viewmodel"
-            type="com.yuzu.themoviedb.viewmodel.MainMenuViewModel" />
+            type="com.yuzu.themoviedb.viewmodel.MovieViewModel" />
         <import alias="Utils" type="com.eudycontreras.boneslibrary.extensions.NumberExtensionsKt" />
         <import type="com.eudycontreras.boneslibrary.properties.ShapeType" />
     </data>

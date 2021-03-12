@@ -2,7 +2,7 @@ package com.yuzu.themoviedb.view.activity
 
 import android.os.Bundle
 import com.yuzu.themoviedb.R
-import com.yuzu.themoviedb.view.fragment.MainMenuFragment
+import com.yuzu.themoviedb.view.fragment.MovieFragment
 
 /**
  * Created by Yustar Pramudana on 10/03/2021
@@ -17,7 +17,7 @@ class MainActivity: BaseViewActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_content,
-                    MainMenuFragment()
+                    MovieFragment()
                 ).commit()
         }
     }

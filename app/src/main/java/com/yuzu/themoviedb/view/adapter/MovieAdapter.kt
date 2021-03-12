@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yuzu.themoviedb.R
 import com.yuzu.themoviedb.model.State
 import com.yuzu.themoviedb.model.data.MovieData
-import com.yuzu.themoviedb.viewmodel.MainMenuViewModel
+import com.yuzu.themoviedb.viewmodel.MovieViewModel
 
 /**
  * Created by Yustar Pramudana on 12/03/2021
  */
 
-class MovieAdapter(private val viewModel: MainMenuViewModel, private val retry: () -> Unit): PagedListAdapter<MovieData, RecyclerView.ViewHolder>(UserDiffCallback) {
+class MovieAdapter(private val viewModel: MovieViewModel, private val retry: () -> Unit): PagedListAdapter<MovieData, RecyclerView.ViewHolder>(UserDiffCallback) {
     private val DATA_VIEW_TYPE = 1
     private val FOOTER_VIEW_TYPE = 2
     private var state = State.LOADING

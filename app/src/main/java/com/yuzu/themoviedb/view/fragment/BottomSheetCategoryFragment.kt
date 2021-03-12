@@ -2,7 +2,6 @@ package com.yuzu.themoviedb.view.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,17 +36,17 @@ class BottomSheetCategoryFragment: BottomSheetDialogFragment() {
         super.onActivityCreated(savedInstanceState)
 
         binding.popular.setOnClickListener {
-            (parentFragment as MainMenuFragment).popularOnClick()
+            (parentFragment as MovieFragment).popularOnClick()
             dismiss()
         }
 
         binding.topRated.setOnClickListener {
-            (parentFragment as MainMenuFragment).topRatedOnClick()
+            (parentFragment as MovieFragment).topRatedOnClick()
             dismiss()
         }
 
         binding.nowPlaying.setOnClickListener {
-            (parentFragment as MainMenuFragment).nowPlayingOnClick()
+            (parentFragment as MovieFragment).nowPlayingOnClick()
             dismiss()
         }
     }

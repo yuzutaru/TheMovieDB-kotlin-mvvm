@@ -47,7 +47,7 @@ class MovieDetailFragment: Fragment() {
     private fun onBackPressed() {
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                (activity as MainActivity).replaceFragment(R.id.main_content, MainMenuFragment(), null)
+                (activity as MainActivity).replaceFragment(R.id.main_content, MovieFragment(), null)
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)

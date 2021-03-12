@@ -11,32 +11,32 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.yuzu.themoviedb.R
-import com.yuzu.themoviedb.databinding.FragmentMainMenuBinding
+import com.yuzu.themoviedb.databinding.FragmentMovieBinding
 import com.yuzu.themoviedb.model.data.MovieData
 import com.yuzu.themoviedb.utils.*
 import com.yuzu.themoviedb.view.activity.MainActivity
 import com.yuzu.themoviedb.view.adapter.MovieAdapter
-import com.yuzu.themoviedb.viewmodel.MainMenuViewModel
+import com.yuzu.themoviedb.viewmodel.MovieViewModel
 import java.util.*
 
 /**
  * Created by Yustar Pramudana on 10/03/2021
  */
 
-class MainMenuFragment: Fragment() {
+class MovieFragment: Fragment() {
     private val LOG_TAG = "Movie"
-    private lateinit var binding: FragmentMainMenuBinding
-    private lateinit var viewModel: MainMenuViewModel
+    private lateinit var binding: FragmentMovieBinding
+    private lateinit var viewModel: MovieViewModel
 
     private lateinit var movieAdapter: MovieAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewModel = ViewModelProvider(this).get(MainMenuViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentMainMenuBinding.inflate(inflater, container, false).apply {
+        binding = FragmentMovieBinding.inflate(inflater, container, false).apply {
             viewModel = viewModel
             lifecycleOwner = viewLifecycleOwner
         }

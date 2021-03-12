@@ -24,7 +24,7 @@ import io.reactivex.disposables.CompositeDisposable
  * Created by Yustar Pramudana on 10/03/2021
  */
 
-class MainMenuViewModel: ViewModel() {
+class MovieViewModel: ViewModel() {
     private val LOG_TAG = "Movie"
     var loading: MutableLiveData<Boolean> = MutableLiveData(false)
 
