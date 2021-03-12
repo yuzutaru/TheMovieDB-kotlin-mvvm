@@ -13,11 +13,11 @@ class MovieRepositoryImpl(private val api: MovieAPI): MovieRepository {
         return api.popular(page, apiKey)
     }
 
-    override fun topRated(apiKey: String): Single<Movie> {
-        return api.topRated(apiKey)
+    override fun topRated(page: Int, apiKey: String): Single<Movie> {
+        return api.topRated(page, apiKey)
     }
 
-    override fun nowPlaying(apiKey: String): Single<Movie> {
-        return api.nowPlaying(apiKey)
+    override fun nowPlaying(page: Int, apiKey: String): Single<Movie> {
+        return api.nowPlaying(page, apiKey)
     }
 }

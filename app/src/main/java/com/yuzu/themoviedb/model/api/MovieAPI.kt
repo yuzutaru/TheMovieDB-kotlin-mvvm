@@ -20,11 +20,11 @@ interface MovieAPI {
      * Top Rated
      * */
     @GET(value = "top_rated")
-    fun topRated(@Query("api_key") apiKey: String): Single<Movie>
+    fun topRated(@Query("page") page: Int, @Query("api_key") apiKey: String): Single<Movie>
 
     /**
      * Now Playing
      * */
     @GET(value = "now_playing")
-    fun nowPlaying(@Query("api_key") apiKey: String): Single<Movie>
+    fun nowPlaying(@Query("page") page: Int, @Query("api_key") apiKey: String): Single<Movie>
 }
