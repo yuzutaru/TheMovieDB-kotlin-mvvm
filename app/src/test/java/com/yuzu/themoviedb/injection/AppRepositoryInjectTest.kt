@@ -5,6 +5,7 @@ import com.yuzu.themoviedb.injection.component.DaggerTestApplicationComponent
 import com.yuzu.themoviedb.injection.module.TestApplicationModule
 import com.yuzu.themoviedb.model.api.MovieAPI
 import com.yuzu.themoviedb.model.data.Movie
+import com.yuzu.themoviedb.model.data.MovieDetail
 import com.yuzu.themoviedb.model.repository.MovieRepository
 import com.yuzu.themoviedb.utils.API_KEY
 import io.mockk.every
@@ -36,24 +37,32 @@ class AppRepositoryInjectTest {
     @Test
     fun apiPopularTest() {
         Assert.assertNotNull(api)
-        every { api.popular(API_KEY) } returns Single.just(Movie())
-        val result = api.popular(API_KEY)
+        every { api.popular(1, API_KEY) } returns Single.just(Movie())
+        val result = api.popular(1, API_KEY)
         result.test().assertValue(Movie())
     }
 
     @Test
     fun apiTopRatedTest() {
         Assert.assertNotNull(api)
-        every { api.topRated(API_KEY) } returns Single.just(Movie())
-        val result = api.topRated(API_KEY)
+        every { api.topRated(1, API_KEY) } returns Single.just(Movie())
+        val result = api.topRated(1, API_KEY)
         result.test().assertValue(Movie())
     }
 
     @Test
     fun apiNowPlayingTest() {
         Assert.assertNotNull(api)
-        every { api.nowPlaying(API_KEY) } returns Single.just(Movie())
-        val result = api.nowPlaying(API_KEY)
+        every { api.nowPlaying(1, API_KEY) } returns Single.just(Movie())
+        val result = api.nowPlaying(1, API_KEY)
         result.test().assertValue(Movie())
+    }
+
+    @Test
+    fun apiDetailsTest() {
+        Assert.assertNotNull(api)
+        every { api.details(0, API_KEY) } returns Single.just(MovieDetail(0))
+        val result = api.details(0, API_KEY)
+        result.test().assertValue(MovieDetail(0))
     }
 }
