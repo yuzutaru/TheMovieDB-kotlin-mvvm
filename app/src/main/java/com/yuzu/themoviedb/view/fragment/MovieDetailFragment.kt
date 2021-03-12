@@ -48,7 +48,7 @@ class MovieDetailFragment: Fragment() {
         onBackPressed()
 
         viewModel.getData(arguments)
-        viewModel.movieDataLive().observe(viewLifecycleOwner, { setImage(it) })
+        viewModel.movieDataLive().observe(viewLifecycleOwner, { /*setImage(it)*/ })
     }
 
     private fun setImage(data: MovieData) {

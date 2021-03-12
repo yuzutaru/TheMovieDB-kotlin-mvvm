@@ -16,13 +16,14 @@ class MovieDetailViewModel: ViewModel() {
     private val LOG_TAG = "MovieDetail"
     var loading: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    var movieData = MutableLiveData<MovieData>()
-    fun movieDataLive(): LiveData<MovieData> = movieData
+    var movieData = MutableLiveData<Int>()
+    fun movieDataLive(): LiveData<Int> = movieData
 
     fun getData(arguments: Bundle?) {
         if (arguments != null) {
-            movieData.value = arguments.get(ARGUMENT_MOVIE_DATA) as MovieData
-            Log.e(LOG_TAG, "getData:movieData.title = ${movieData.value!!.title}")
+            movieData.value = arguments.get(ARGUMENT_MOVIE_DATA) as Int
         }
     }
+
+    fun detail() {}
 }
