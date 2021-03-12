@@ -2,6 +2,7 @@ package com.yuzu.themoviedb.model.repository
 
 import com.yuzu.themoviedb.model.api.MovieAPI
 import com.yuzu.themoviedb.model.data.Movie
+import com.yuzu.themoviedb.model.data.MovieDetail
 import io.reactivex.Single
 
 /**
@@ -19,5 +20,9 @@ class MovieRepositoryImpl(private val api: MovieAPI): MovieRepository {
 
     override fun nowPlaying(page: Int, apiKey: String): Single<Movie> {
         return api.nowPlaying(page, apiKey)
+    }
+
+    override fun details(id: Int, apiKey: String): Single<MovieDetail> {
+        return api.details(id, apiKey)
     }
 }
