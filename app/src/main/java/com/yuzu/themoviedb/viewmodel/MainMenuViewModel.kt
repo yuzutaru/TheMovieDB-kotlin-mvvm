@@ -13,9 +13,10 @@ import com.yuzu.themoviedb.TheMovieDBApplication
 import com.yuzu.themoviedb.databinding.FragmentMainMenuBinding
 import com.yuzu.themoviedb.model.State
 import com.yuzu.themoviedb.model.data.MovieData
-import com.yuzu.themoviedb.model.datasource.PopularDataSource
-import com.yuzu.themoviedb.model.datasource.PopularDataSourceFactory
+import com.yuzu.themoviedb.model.datasource.MovieDataSource
+import com.yuzu.themoviedb.model.datasource.MovieDataSourceFactory
 import com.yuzu.themoviedb.model.repository.MovieRepository
+import com.yuzu.themoviedb.utils.ARGUMENT_POPULAR
 import com.yuzu.themoviedb.view.adapter.MovieAdapter
 import io.reactivex.disposables.CompositeDisposable
 
@@ -29,19 +30,29 @@ class MainMenuViewModel: ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
     private val movieRepository: MovieRepository
-    private val popularDataSourceFactory: PopularDataSourceFactory
+    private var movieDataSourceFactory: MovieDataSourceFactory? = null
 
     var moviePagedList: LiveData<PagedList<MovieData>>
-
+    var type = MutableLiveData<String>()
     private val pageSize = 5
 
     init {
         val appComponent = TheMovieDBApplication.instance.getAppComponent()
         movieRepository = appComponent.movieRepository()
 
-        popularDataSourceFactory = PopularDataSourceFactory(movieRepository, compositeDisposable)
+        movieDataSourceFactory = MovieDataSourceFactory(movieRepository, compositeDisposable, "")
         val config = PagedList.Config.Builder().setPageSize(pageSize).setInitialLoadSizeHint(pageSize).setEnablePlaceholders(false).build()
-        moviePagedList = LivePagedListBuilder(popularDataSourceFactory, config).build()
+        //moviePagedList = LivePagedListBuilder(movieDataSourceFactory, config).build()
+
+        moviePagedList = Transformations.switchMap(type) { input ->
+            return@switchMap if (input == null || input.equals("") || input.equals("%%")) {
+                //check if the current value is empty load all data else search
+                LivePagedListBuilder(movieDataSourceFactory!!, config).build()
+            } else {
+                movieDataSourceFactory = MovieDataSourceFactory(movieRepository, compositeDisposable, input)
+                LivePagedListBuilder(movieDataSourceFactory!!, config).build()
+            }
+        }
     }
 
     fun checkPrevFragment(prev: Fragment?, fragmentTransaction: FragmentTransaction) {
@@ -52,12 +63,12 @@ class MainMenuViewModel: ViewModel() {
     }
 
     fun retry() {
-        popularDataSourceFactory.popularDataSourceLiveData.value?.retry()
+        movieDataSourceFactory!!.movieDataSourceLiveData.value?.retry()
     }
 
     fun getState(): LiveData<State> = Transformations.switchMap(
-        popularDataSourceFactory.popularDataSourceLiveData,
-        PopularDataSource::state
+        movieDataSourceFactory!!.movieDataSourceLiveData,
+        MovieDataSource::state
     )
 
     private fun listIsEmpty(): Boolean {

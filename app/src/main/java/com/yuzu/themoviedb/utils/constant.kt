@@ -13,3 +13,7 @@ const val API_KEY = "3f931287d4b9ed0e2b5eea0c6898a205"
 const val IMG_URL = "https://image.tmdb.org/t/p/original/"
 
 const val BOTTOM_SHEET_DIALOG = "BOTTOM_SHEET_DIALOG"
+
+const val ARGUMENT_POPULAR = "ARGUMENT_POPULAR"
+const val ARGUMENT_TOP_RATED = "ARGUMENT_TOP_RATED"
+const val ARGUMENT_NOW_PLAYING = "ARGUMENT_NOW_PLAYING"
