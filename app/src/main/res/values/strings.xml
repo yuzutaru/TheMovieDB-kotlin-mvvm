@@ -2,6 +2,8 @@
     <string name="app_name">The Movie Database</string>
     <string name="category">Category</string>
 
+    <string name="error_message">Error !! Please connect to the Internet.</string>
+
     <!--Item Menu-->
     <string name="popular">Popular</string>
     <string name="top_rated">Top Rated</string>
