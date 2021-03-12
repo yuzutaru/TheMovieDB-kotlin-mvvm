@@ -44,6 +44,7 @@ class MovieDetailFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        backOnClick()
         onBackPressed()
 
         viewModel.getData(arguments)
@@ -53,6 +54,12 @@ class MovieDetailFragment: Fragment() {
     private fun setImage(data: MovieData) {
         Glide.with(this).load(IMG_URL + data.backdropPath).diskCacheStrategy(DiskCacheStrategy.DATA).into(binding.backdrop)
         Glide.with(this).load(IMG_URL + data.posterPath).diskCacheStrategy(DiskCacheStrategy.DATA).into(binding.photo)
+    }
+
+    private fun backOnClick() {
+        binding.back.setOnClickListener {
+            (activity as MainActivity).replaceFragment(R.id.main_content, MovieFragment(), null)
+        }
     }
 
     private fun onBackPressed() {
