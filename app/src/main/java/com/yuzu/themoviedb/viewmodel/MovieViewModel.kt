@@ -32,8 +32,8 @@ class MovieViewModel: ViewModel() {
     private val movieRepository: MovieRepository
     private var movieDataSourceFactory: MovieDataSourceFactory? = null
 
-    private val movieData = MutableLiveData<MovieData>()
-    fun movieDataLive(): LiveData<MovieData> = movieData
+    private val movieData = MutableLiveData<Int>()
+    fun movieDataLive(): LiveData<Int> = movieData
 
     var moviePagedList: LiveData<PagedList<MovieData>>
     var type = MutableLiveData<String>()
@@ -100,7 +100,8 @@ class MovieViewModel: ViewModel() {
         }
     }
 
-    fun itemOnClick(data: MovieData) {
-        movieData.value = data
+    fun itemOnClick(id: Int?) {
+        if (id != null)
+            movieData.value = id
     }
 }

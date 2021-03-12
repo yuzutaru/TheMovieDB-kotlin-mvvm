@@ -33,7 +33,7 @@ class MovieViewHolder(private val viewModel: MovieViewModel, view: View): Recycl
             binding.overview.text = data.overview
 
             binding.background.setOnClickListener {
-                viewModel.itemOnClick(data)
+                viewModel.itemOnClick(data.id)
             }
         }
     }

@@ -108,7 +108,7 @@ class MovieFragment: Fragment() {
         viewModel.type.value = ARGUMENT_NOW_PLAYING
     }
 
-    private fun movieDetail(data: MovieData) {
+    private fun movieDetail(data: Int) {
         val bundle = bundleOf(ARGUMENT_MOVIE_DATA to data)
         (activity as MainActivity).replaceFragment(R.id.main_content, MovieDetailFragment(), bundle)
     }
