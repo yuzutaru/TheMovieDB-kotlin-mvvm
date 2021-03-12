@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.yuzu.themoviedb.TheMovieDBApplication
-import com.yuzu.themoviedb.databinding.FragmentMainMenuBinding
+import com.yuzu.themoviedb.databinding.FragmentMovieBinding
 import com.yuzu.themoviedb.model.State
 import com.yuzu.themoviedb.model.data.MovieData
 import com.yuzu.themoviedb.model.datasource.MovieDataSource
@@ -79,7 +79,7 @@ class MovieViewModel: ViewModel() {
         return moviePagedList.value?.isEmpty() ?: true
     }
 
-    fun recyclerViewVisibility(binding: FragmentMainMenuBinding, state: State, movieAdapter: MovieAdapter) {
+    fun recyclerViewVisibility(binding: FragmentMovieBinding, state: State, movieAdapter: MovieAdapter) {
         if (listIsEmpty() && state == State.LOADING) {
             loading.value = true
             binding.recyclerView.visibility = View.GONE
@@ -101,7 +101,6 @@ class MovieViewModel: ViewModel() {
     }
 
     fun itemOnClick(data: MovieData) {
-        Log.e(LOG_TAG, "itemOnClick:data: ${data.title}")
         movieData.value = data
     }
 }

@@ -4,7 +4,7 @@
     <data>
         <import type="android.view.View" />
         <variable
-            name="viewModel"
+            name="viewmodel"
             type="com.yuzu.themoviedb.viewmodel.MovieDetailViewModel" />
     </data>
 
@@ -84,10 +84,9 @@
                 android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/md_grey_500"
                 android:textSize="16sp"
-                android:text="Movie Title"
+                android:text="@{viewmodel.movieData.title}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/photo"
-                android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp" />
 
             <TextView
@@ -97,11 +96,10 @@
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/md_grey_500"
                 android:textSize="14sp"
-                android:text="Release Date"
+                android:text="@{viewmodel.movieData.releaseDate}"
                 app:layout_constraintTop_toBottomOf="@+id/title"
                 app:layout_constraintStart_toEndOf="@id/photo"
                 android:layout_marginTop="2dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"/>
 
             <TextView
@@ -111,11 +109,10 @@
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/md_grey_500"
                 android:textSize="12sp"
-                android:text="Long ago, in the fantasy world of Kumandra, humans and dragons lived together in harmony. But when an evil force threatened the land, the dragons sacrificed themselves to save humanity. Now, 500 years later, that same evil has returned and it’s up to a lone warrior, Raya, to track down the legendary last dragon to restore the fractured land and its divided people"
+                android:text="@{viewmodel.movieData.overview}"
                 app:layout_constraintTop_toBottomOf="@+id/release_date"
                 app:layout_constraintStart_toEndOf="@id/photo"
                 android:layout_marginTop="4dp"
-                android:layout_marginLeft="110dp"
                 android:layout_marginStart="110dp"/>
 
             <ImageView

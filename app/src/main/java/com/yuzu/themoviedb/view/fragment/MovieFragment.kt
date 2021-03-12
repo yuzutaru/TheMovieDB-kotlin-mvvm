@@ -37,7 +37,7 @@ class MovieFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentMovieBinding.inflate(inflater, container, false).apply {
-            viewModel = viewModel
+            viewmodel = viewModel
             lifecycleOwner = viewLifecycleOwner
         }
 
@@ -108,8 +108,7 @@ class MovieFragment: Fragment() {
         viewModel.type.value = ARGUMENT_NOW_PLAYING
     }
 
-    fun movieDetail(data: MovieData) {
-        Log.e(LOG_TAG, "movieDetail:data: ${data.title}")
+    private fun movieDetail(data: MovieData) {
         val bundle = bundleOf(ARGUMENT_MOVIE_DATA to data)
         (activity as MainActivity).replaceFragment(R.id.main_content, MovieDetailFragment(), bundle)
     }

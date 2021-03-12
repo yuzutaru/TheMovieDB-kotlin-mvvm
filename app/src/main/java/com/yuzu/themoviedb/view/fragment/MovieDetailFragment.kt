@@ -8,8 +8,12 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.yuzu.themoviedb.R
 import com.yuzu.themoviedb.databinding.FragmentMovieDetailBinding
+import com.yuzu.themoviedb.model.data.MovieData
+import com.yuzu.themoviedb.utils.IMG_URL
 import com.yuzu.themoviedb.view.activity.MainActivity
 import com.yuzu.themoviedb.view.adapter.MovieAdapter
 import com.yuzu.themoviedb.viewmodel.MovieDetailViewModel
@@ -23,8 +27,6 @@ class MovieDetailFragment: Fragment() {
     private lateinit var binding: FragmentMovieDetailBinding
     private lateinit var viewModel: MovieDetailViewModel
 
-    private lateinit var movieAdapter: MovieAdapter
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         viewModel = ViewModelProvider(this).get(MovieDetailViewModel::class.java)
@@ -32,7 +34,7 @@ class MovieDetailFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentMovieDetailBinding.inflate(inflater, container, false).apply {
-            viewModel = viewModel
+            viewmodel = viewModel
             lifecycleOwner = viewLifecycleOwner
         }
 
@@ -41,7 +43,16 @@ class MovieDetailFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         onBackPressed()
+
+        viewModel.getData(arguments)
+        viewModel.movieDataLive().observe(viewLifecycleOwner, { setImage(it) })
+    }
+
+    private fun setImage(data: MovieData) {
+        Glide.with(this).load(IMG_URL + data.backdropPath).diskCacheStrategy(DiskCacheStrategy.DATA).into(binding.backdrop)
+        Glide.with(this).load(IMG_URL + data.posterPath).diskCacheStrategy(DiskCacheStrategy.DATA).into(binding.photo)
     }
 
     private fun onBackPressed() {

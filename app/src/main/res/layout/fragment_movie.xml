@@ -4,7 +4,7 @@
     <data>
         <import type="android.view.View" />
         <variable
-            name="viewModel"
+            name="viewmodel"
             type="com.yuzu.themoviedb.viewmodel.MovieViewModel" />
     </data>
 
@@ -18,13 +18,13 @@
             style="?android:attr/progressBarStyleLarge"
             android:layout_gravity="center"
             android:indeterminateDrawable="@drawable/progress"
-            android:visibility="@{safeUnbox(viewModel.loading) ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{safeUnbox(viewmodel.loading) ? View.VISIBLE : View.GONE}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="@{safeUnbox(viewModel.loading) ? View.GONE : View.VISIBLE}">
+            android:visibility="@{safeUnbox(viewmodel.loading) ? View.GONE : View.VISIBLE}">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -56,7 +56,6 @@
                         android:adjustViewBounds="true"
                         android:src="@drawable/ic_heart_empty"
                         android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true" />
                 </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>
@@ -68,7 +67,7 @@
                 android:layout_marginTop="70dp"
                 android:layout_marginBottom="80dp"
                 android:layout_marginHorizontal="20dp"
-                android:visibility="@{safeUnbox(viewModel.loading) ? View.GONE : View.VISIBLE}"
+                android:visibility="@{safeUnbox(viewmodel.loading) ? View.GONE : View.VISIBLE}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
