@@ -23,7 +23,7 @@ import java.util.*
  */
 
 class MainMenuFragment: Fragment() {
-    private val LOG_TAG = "User"
+    private val LOG_TAG = "Movie"
     private lateinit var binding: FragmentMainMenuBinding
     private lateinit var viewModel: MainMenuViewModel
 

@@ -25,7 +25,7 @@ import io.reactivex.disposables.CompositeDisposable
  */
 
 class MainMenuViewModel: ViewModel() {
-    private val LOG_TAG = "MainMenu"
+    private val LOG_TAG = "Movie"
     var loading: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private val compositeDisposable = CompositeDisposable()
@@ -36,7 +36,8 @@ class MainMenuViewModel: ViewModel() {
     var type = MutableLiveData<String>()
     private val pageSize = 5
 
-    init {
+    init
+    {
         val appComponent = TheMovieDBApplication.instance.getAppComponent()
         movieRepository = appComponent.movieRepository()
 
@@ -48,6 +49,7 @@ class MainMenuViewModel: ViewModel() {
             return@switchMap if (input == null || input.equals("") || input.equals("%%")) {
                 //check if the current value is empty load all data else search
                 LivePagedListBuilder(movieDataSourceFactory!!, config).build()
+
             } else {
                 movieDataSourceFactory = MovieDataSourceFactory(movieRepository, compositeDisposable, input)
                 LivePagedListBuilder(movieDataSourceFactory!!, config).build()
