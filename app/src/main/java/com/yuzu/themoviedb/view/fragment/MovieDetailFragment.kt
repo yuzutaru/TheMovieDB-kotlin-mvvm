@@ -13,9 +13,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.yuzu.themoviedb.R
 import com.yuzu.themoviedb.databinding.FragmentMovieDetailBinding
 import com.yuzu.themoviedb.model.data.MovieData
+import com.yuzu.themoviedb.model.data.MovieDetail
 import com.yuzu.themoviedb.utils.IMG_URL
 import com.yuzu.themoviedb.view.activity.MainActivity
-import com.yuzu.themoviedb.view.adapter.MovieAdapter
 import com.yuzu.themoviedb.viewmodel.MovieDetailViewModel
 
 /**
@@ -48,12 +48,15 @@ class MovieDetailFragment: Fragment() {
         onBackPressed()
 
         viewModel.getData(arguments)
-        viewModel.movieDataLive().observe(viewLifecycleOwner, { /*setImage(it)*/ })
+        viewModel.movieIdDataLive().observe(viewLifecycleOwner, { viewModel.detail() })
+        viewModel.movieDetailDataLive().observe(viewLifecycleOwner, { viewModel.detailRes(this, it) })
+        viewModel.movieDetailResDataLive().observe(viewLifecycleOwner, { setImage(it) })
     }
 
-    private fun setImage(data: MovieData) {
+    private fun setImage(data: MovieDetail) {
         Glide.with(this).load(IMG_URL + data.backdropPath).diskCacheStrategy(DiskCacheStrategy.DATA).into(binding.backdrop)
         Glide.with(this).load(IMG_URL + data.posterPath).diskCacheStrategy(DiskCacheStrategy.DATA).into(binding.photo)
+        viewModel.genre()
     }
 
     private fun backOnClick() {

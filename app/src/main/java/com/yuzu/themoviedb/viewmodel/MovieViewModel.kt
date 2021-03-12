@@ -59,6 +59,11 @@ class MovieViewModel: ViewModel() {
         }
     }
 
+    override fun onCleared() {
+        compositeDisposable.clear()
+        super.onCleared()
+    }
+
     fun checkPrevFragment(prev: Fragment?, fragmentTransaction: FragmentTransaction) {
         if (prev != null) {
             fragmentTransaction.remove(prev)
@@ -101,7 +106,9 @@ class MovieViewModel: ViewModel() {
     }
 
     fun itemOnClick(id: Int?) {
-        if (id != null)
+        if (id != null) {
+            loading.value = true
             movieData.value = id
+        }
     }
 }

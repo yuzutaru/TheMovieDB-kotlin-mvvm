@@ -3,6 +3,7 @@
     <string name="category">Category</string>
 
     <string name="error_message">Error !! Please connect to the Internet.</string>
+    <string name="no_connection">No internet connection</string>
 
     <!--Item Menu-->
     <string name="favourite">Favourite</string>
