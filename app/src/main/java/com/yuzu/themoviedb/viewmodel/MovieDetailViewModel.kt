@@ -258,4 +258,10 @@ class MovieDetailViewModel: ViewModel() {
         if (data != null)
             movieDBRepository.delete(data)
     }
+
+    fun getMovieDB(id: Int) {
+        /*compositeDisposable.add(
+            movieDBRepository.get
+        )*/
+    }
 }

@@ -13,6 +13,9 @@ interface MovieDAO {
     @Query("SELECT * from MovieData")
     fun getAll(): Single<List<MovieData>>
 
+    @Query("SELECT * FROM MovieData WHERE id = :id")
+    fun getDataById(id: Int): Single<MovieData>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(data: MovieData)
 

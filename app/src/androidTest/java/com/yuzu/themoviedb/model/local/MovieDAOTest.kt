@@ -18,6 +18,13 @@ class MovieDAOTest: MovieDBTest() {
     }
 
     @Test
+    fun getDataById() {
+        db.movieDAO().insert(listOf(MovieData(0), MovieData(1)))
+        val data = db.movieDAO().getDataById(0).blockingGet()
+        Assert.assertNotNull(data)
+    }
+
+    @Test
     fun deleteTest() {
         db.movieDAO().insert(listOf(MovieData(0), MovieData(1)))
         val data = db.movieDAO().getAll().blockingGet()

@@ -14,6 +14,10 @@ class MovieDBRepositoryImpl(private val dao: MovieDAO, private val exec: Executo
         return dao.getAll()
     }
 
+    override fun getDataById(id: Int): Single<MovieData> {
+        return dao.getDataById(id)
+    }
+
     override fun insert(data: MovieData) {
         exec.execute {
             dao.insert(data)
