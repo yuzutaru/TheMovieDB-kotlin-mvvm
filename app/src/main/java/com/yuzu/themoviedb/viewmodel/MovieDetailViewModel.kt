@@ -55,6 +55,9 @@ class MovieDetailViewModel: ViewModel() {
     var movieDetailData = MutableLiveData<MovieDetail>()
     fun movieDetailResDataLive(): LiveData<MovieDetail> = movieDetailData
 
+    private val movieDB = MutableLiveData<Response<MovieData>>()
+    fun movieDBDataLive(): LiveData<Response<MovieData>> = movieDB
+
     private val review = MutableLiveData<ReviewData>()
     fun reviewDataLive(): LiveData<ReviewData> = review
 
@@ -93,6 +96,7 @@ class MovieDetailViewModel: ViewModel() {
         if (arguments != null) {
             movieId.value = arguments.get(ARGUMENT_MOVIE_DATA) as Int
             id.value = movieId.value
+            movieDB(id.value)
         }
     }
 
@@ -259,9 +263,69 @@ class MovieDetailViewModel: ViewModel() {
             movieDBRepository.delete(data)
     }
 
-    fun getMovieDB(id: Int) {
-        /*compositeDisposable.add(
-            movieDBRepository.get
-        )*/
+    private fun movieDB(id: Int?) {
+        if (id != null) {
+            compositeDisposable.add(
+                movieDBRepository.getDataById(id)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                                res -> movieDB.value = Response.succeed(res)
+                        },
+                        {
+                            movieDB.value = when (it) {
+                                is NoNetworkException -> {
+                                    Response.networkLost()
+                                }
+                                else -> Response.error(it)
+                            }
+                        }
+                    )
+            )
+        }
+    }
+
+    fun movieDBRes(fragment: MovieDetailFragment, binding: FragmentMovieDetailBinding, response: Response<MovieData>) {
+        try {
+            Log.d(LOG_TAG, "DATA STATUS = ${response.status}")
+
+            if (response.status == Status.SUCCEED) {
+                if (response.data != null) {
+                    binding.like.visibility = View.VISIBLE
+                    binding.unlike.visibility = View.GONE
+                }
+
+            } else if (response.status == Status.FAILED) {
+                if (response.error != null) {
+                    if (response.error.message != null) {
+                        if (response.error.message!!.contains("Unable to resolve host", true)) {
+                            Log.e(LOG_TAG, "movieDBRes:errorMessage : ${fragment.resources.getString(R.string.no_connection)}")
+                            //Toast.makeText(fragment.context, fragment.resources.getString(R.string.no_connection), Toast.LENGTH_LONG).show()
+
+                            loading.value = false
+
+                        } else {
+                            Log.e(LOG_TAG, "movieDBRes:errorMessage : ${response.error.message}")
+                            //Toast.makeText(fragment.context, response.error.message, Toast.LENGTH_LONG).show()
+                            loading.value = false
+                        }
+
+                    } else {
+                        Log.e(LOG_TAG, "movieDBRes:errorMessage : General Error")
+                        //Toast.makeText(fragment.context, "General Error", Toast.LENGTH_LONG).show()
+                        loading.value = false
+                    }
+                }
+
+            } else if (response.status == Status.NO_CONNECTION) {
+                Log.e(LOG_TAG,"movieDBRes:errorMessage : ${fragment.resources.getString(R.string.no_connection)}")
+                Toast.makeText(fragment.context,fragment.resources.getString(R.string.no_connection),Toast.LENGTH_LONG).show()
+                loading.value = false
+            }
+        } catch (e: Exception) {
+            e.message?.let { Log.e(LOG_TAG, it) }
+            loading.value = false
+        }
     }
 }

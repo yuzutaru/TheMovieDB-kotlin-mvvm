@@ -62,6 +62,7 @@ class MovieDetailFragment: Fragment() {
         viewModel.movieIdDataLive().observe(viewLifecycleOwner, { viewModel.detail() })
         viewModel.movieDetailDataLive().observe(viewLifecycleOwner, { viewModel.detailRes(this, it) })
         viewModel.movieDetailResDataLive().observe(viewLifecycleOwner, { setImage(it) })
+        viewModel.movieDBDataLive().observe(viewLifecycleOwner, { viewModel.movieDBRes(this, binding, it) })
     }
 
     private fun setImage(data: MovieDetail) {
