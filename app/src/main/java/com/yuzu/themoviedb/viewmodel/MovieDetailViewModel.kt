@@ -41,7 +41,7 @@ class MovieDetailViewModel: ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
     private val movieRepository: MovieRepository
-    private lateinit var reviewDataSourceFactory: ReviewDataSourceFactory
+    private var reviewDataSourceFactory: ReviewDataSourceFactory
 
     private val movieId = MutableLiveData<Int>()
     fun movieIdDataLive(): LiveData<Int> = movieId
@@ -58,7 +58,7 @@ class MovieDetailViewModel: ViewModel() {
     var genre = MutableLiveData<String>()
     var id = MutableLiveData<Int>()
 
-    lateinit var reviewPagedList: LiveData<PagedList<ReviewData>>
+    var reviewPagedList: LiveData<PagedList<ReviewData>>
     private val pageSize = 4
 
     init {

@@ -2,7 +2,12 @@ package com.yuzu.themoviedb.injection.module
 
 import android.annotation.SuppressLint
 import android.app.Application
+import androidx.room.Room
 import com.yuzu.themoviedb.model.api.MovieAPI
+import com.yuzu.themoviedb.model.local.MovieDAO
+import com.yuzu.themoviedb.model.local.MovieDB
+import com.yuzu.themoviedb.model.repository.MovieDBRepository
+import com.yuzu.themoviedb.model.repository.MovieDBRepositoryImpl
 import com.yuzu.themoviedb.model.repository.MovieRepository
 import com.yuzu.themoviedb.model.repository.MovieRepositoryImpl
 import com.yuzu.themoviedb.utils.BASE_URL
@@ -17,6 +22,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import javax.net.ssl.HostnameVerifier
@@ -84,7 +91,7 @@ open class AppModule(private val app: Application) {
         }
     }
 
-    //Profile API
+    //Movie API
     @Provides
     @Singleton
     open fun movieAPI(): MovieAPI {
@@ -101,5 +108,30 @@ open class AppModule(private val app: Application) {
     @Singleton
     open fun movieRepository(api: MovieAPI): MovieRepository {
         return MovieRepositoryImpl(api)
+    }
+
+    //Movie ROOM Data
+    @Provides
+    @Singleton
+    fun movieDB(): MovieDB {
+        return Room.databaseBuilder(app, MovieDB::class.java, "movie.db").build()
+    }
+
+    @Provides
+    @Singleton
+    fun movieDAO(db: MovieDB): MovieDAO {
+        return db.movieDAO()
+    }
+
+    @Provides
+    @Singleton
+    open fun movieDBRepository(dao: MovieDAO, exec: Executor): MovieDBRepository {
+        return MovieDBRepositoryImpl(dao, exec)
+    }
+
+    @Singleton
+    @Provides
+    fun getExecutor(): Executor {
+        return Executors.newFixedThreadPool(2)
     }
 }
