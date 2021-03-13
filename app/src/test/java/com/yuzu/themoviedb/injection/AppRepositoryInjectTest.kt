@@ -6,6 +6,7 @@ import com.yuzu.themoviedb.injection.module.TestApplicationModule
 import com.yuzu.themoviedb.model.api.MovieAPI
 import com.yuzu.themoviedb.model.data.Movie
 import com.yuzu.themoviedb.model.data.MovieDetail
+import com.yuzu.themoviedb.model.data.Review
 import com.yuzu.themoviedb.model.repository.MovieRepository
 import com.yuzu.themoviedb.utils.API_KEY
 import io.mockk.every
@@ -64,5 +65,13 @@ class AppRepositoryInjectTest {
         every { api.details(0, API_KEY) } returns Single.just(MovieDetail(0))
         val result = api.details(0, API_KEY)
         result.test().assertValue(MovieDetail(0))
+    }
+
+    @Test
+    fun apiReviewsTest() {
+        Assert.assertNotNull(api)
+        every { api.reviews(0, 1, API_KEY) } returns Single.just(Review(0))
+        val result = api.reviews(0, 1, API_KEY)
+        result.test().assertValue(Review(0))
     }
 }
