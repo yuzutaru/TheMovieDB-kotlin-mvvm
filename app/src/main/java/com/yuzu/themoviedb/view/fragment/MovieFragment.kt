@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -47,6 +48,7 @@ class MovieFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        onBackPressed()
         categoryOnClick()
         initAdapter()
         initState()
@@ -111,5 +113,14 @@ class MovieFragment: Fragment() {
     private fun movieDetail(data: Int) {
         val bundle = bundleOf(ARGUMENT_MOVIE_DATA to data)
         (activity as MainActivity).replaceFragment(R.id.main_content, MovieDetailFragment(), bundle)
+    }
+
+    private fun onBackPressed() {
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                //(activity as MainActivity).replaceFragment(R.id.main_content, MovieFragment(), null)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 }

@@ -1,5 +1,6 @@
 package com.yuzu.themoviedb.view.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +22,9 @@ class SkeletonViewHolder(view: View): RecyclerView.ViewHolder(view) {
     }
 
     fun bind(status: State?) {
-        binding.skeletonLayout.visibility = if (status == State.LOADING) View.VISIBLE else View.INVISIBLE
-        binding.txtError.visibility = if (status == State.ERROR) View.VISIBLE else View.INVISIBLE
+        Log.e("skeleton", "bind:State = $status")
+        binding.skeletonLayout.visibility = if (status == State.LOADING) View.VISIBLE else View.GONE
+        binding.txtError.visibility = if (status == State.ERROR) View.VISIBLE else View.GONE
 
         binding.skeletonConstraint.isEnabled = status == State.LOADING
     }

@@ -2,22 +2,30 @@ package com.yuzu.themoviedb.viewmodel
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.yuzu.themoviedb.R
 import com.yuzu.themoviedb.TheMovieDBApplication
+import com.yuzu.themoviedb.databinding.FragmentMovieDetailBinding
 import com.yuzu.themoviedb.model.NoNetworkException
 import com.yuzu.themoviedb.model.Response
+import com.yuzu.themoviedb.model.State
 import com.yuzu.themoviedb.model.Status
 import com.yuzu.themoviedb.model.data.MovieDetail
+import com.yuzu.themoviedb.model.data.ReviewData
+import com.yuzu.themoviedb.model.datasource.MovieDataSourceFactory
+import com.yuzu.themoviedb.model.datasource.ReviewDataSource
+import com.yuzu.themoviedb.model.datasource.ReviewDataSourceFactory
 import com.yuzu.themoviedb.model.repository.MovieRepository
 import com.yuzu.themoviedb.utils.API_KEY
 import com.yuzu.themoviedb.utils.ARGUMENT_MOVIE_DATA
+import com.yuzu.themoviedb.view.adapter.ReviewAdapter
 import com.yuzu.themoviedb.view.fragment.MovieDetailFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -33,6 +41,7 @@ class MovieDetailViewModel: ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
     private val movieRepository: MovieRepository
+    private lateinit var reviewDataSourceFactory: ReviewDataSourceFactory
 
     private val movieId = MutableLiveData<Int>()
     fun movieIdDataLive(): LiveData<Int> = movieId
@@ -43,11 +52,31 @@ class MovieDetailViewModel: ViewModel() {
     var movieDetailData = MutableLiveData<MovieDetail>()
     fun movieDetailResDataLive(): LiveData<MovieDetail> = movieDetailData
 
+    private val review = MutableLiveData<ReviewData>()
+    fun reviewDataLive(): LiveData<ReviewData> = review
+
     var genre = MutableLiveData<String>()
+    var id = MutableLiveData<Int>()
+    lateinit var reviewPagedList: LiveData<PagedList<ReviewData>>
+    private val pageSize = 4
 
     init {
         val appComponent = TheMovieDBApplication.instance.getAppComponent()
         movieRepository = appComponent.movieRepository()
+        reviewDataSourceFactory = ReviewDataSourceFactory(movieRepository, compositeDisposable, 0)
+        val config = PagedList.Config.Builder().setPageSize(pageSize).setInitialLoadSizeHint(pageSize).setEnablePlaceholders(false).build()
+        //reviewPagedList = LivePagedListBuilder(reviewDataSourceFactory, config).build()
+
+        reviewPagedList = Transformations.switchMap(id) { input ->
+            return@switchMap if (input == null || input == 0) {
+                //check if the current value is empty load all data else search
+                LivePagedListBuilder(reviewDataSourceFactory!!, config).build()
+
+            } else {
+                reviewDataSourceFactory = ReviewDataSourceFactory(movieRepository, compositeDisposable, input)
+                LivePagedListBuilder(reviewDataSourceFactory!!, config).build()
+            }
+        }
     }
 
     override fun onCleared() {
@@ -59,6 +88,7 @@ class MovieDetailViewModel: ViewModel() {
         loading.value = true
         if (arguments != null) {
             movieId.value = arguments.get(ARGUMENT_MOVIE_DATA) as Int
+            id.value = movieId.value
         }
     }
 
@@ -139,5 +169,45 @@ class MovieDetailViewModel: ViewModel() {
         }
 
         genre.value = result
+    }
+
+    fun retry() {
+        reviewDataSourceFactory.reviewDataSourceLiveData.value?.retry()
+    }
+
+    fun getState(): LiveData<State> = Transformations.switchMap(
+        reviewDataSourceFactory.reviewDataSourceLiveData, ReviewDataSource::state
+    )
+
+    private fun listIsEmpty(): Boolean {
+        return reviewPagedList.value?.isEmpty() ?: true
+    }
+
+    fun recyclerViewVisibility(binding: FragmentMovieDetailBinding, state: State, reviewAdapter: ReviewAdapter) {
+        if (listIsEmpty() && state == State.LOADING) {
+            loading.value = true
+            binding.recyclerView.visibility = View.GONE
+            //binding.txtError.visibility = View.GONE
+
+        } else if (listIsEmpty() && state == State.ERROR) {
+            loading.value = false
+            //binding.txtError.visibility = View.VISIBLE
+
+        } else {
+            loading.value = false
+            binding.recyclerView.visibility = View.VISIBLE
+            //binding.txtError.visibility = View.GONE
+        }
+
+        if (!listIsEmpty()) {
+            reviewAdapter.setState(state)
+        }
+    }
+
+    fun itemOnClick(id: String?) {
+        /*if (id != null) {
+            loading.value = true
+            movieData.value = id
+        }*/
     }
 }

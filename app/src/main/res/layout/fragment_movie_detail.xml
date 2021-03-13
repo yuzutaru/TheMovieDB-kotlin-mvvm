@@ -20,152 +20,179 @@
         android:indeterminateDrawable="@drawable/progress"
         android:visibility="@{safeUnbox(viewmodel.loading) ? View.VISIBLE : View.GONE}" />
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:visibility="@{safeUnbox(viewmodel.loading) ? View.GONE : View.VISIBLE}">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <RelativeLayout
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/colorPrimary"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:visibility="@{safeUnbox(viewmodel.loading) ? View.GONE : View.VISIBLE}">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/back"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_back"
+                            android:layout_centerVertical="true"/>
+
+                        <TextView
+                            android:id="@+id/title_header"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:text="@{viewmodel.movieDetailData.title}"
+                            android:maxLength="22"
+                            android:layout_toEndOf="@+id/back"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="20dp"/>
+
+                        <ImageView
+                            android:id="@+id/like"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_heart_empty"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="20dp"/>
+                    </RelativeLayout>
+                </androidx.appcompat.widget.Toolbar>
+
+                <ImageView
+                    android:id="@+id/backdrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_white_1000"
+                    android:padding="10dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:elevation="4dp">
 
                     <ImageView
-                        android:id="@+id/back"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:id="@+id/photo"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/ic_back"
-                        android:layout_centerVertical="true"/>
+                        android:src="@drawable/ic_photo"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="10dp"/>
 
                     <TextView
-                        android:id="@+id/title_header"
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/md_grey_500"
+                        android:textSize="16sp"
+                        android:text="@{viewmodel.movieDetailData.title}"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/photo"
+                        android:layout_marginStart="110dp" />
+
+                    <TextView
+                        android:id="@+id/rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/md_grey_500"
+                        android:textSize="16sp"
+                        android:text="@{'(' + viewmodel.movieDetailData.voteAverage.toString() + ')'}"
+                        app:layout_constraintTop_toBottomOf="@+id/title"
+                        app:layout_constraintStart_toEndOf="@id/photo"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginStart="10dp" />
+
+                    <TextView
+                        android:id="@+id/genre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/md_grey_500"
+                        android:textSize="12sp"
+                        android:text="@{viewmodel.genre}"
+                        android:maxLines="3"
+                        app:layout_constraintTop_toBottomOf="@+id/rating"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginStart="110dp"/>
+
+                    <TextView
+                        android:id="@+id/release_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
-                        android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:text="@{viewmodel.movieDetailData.title}"
-                        android:maxLength="22"
-                        android:layout_toEndOf="@+id/back"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"/>
+                        android:textColor="@color/md_grey_500"
+                        android:textSize="14sp"
+                        android:text="@{viewmodel.movieDetailData.releaseDate}"
+                        app:layout_constraintTop_toBottomOf="@+id/genre"
+                        app:layout_constraintStart_toEndOf="@id/photo"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginStart="10dp"/>
 
-                    <ImageView
-                        android:id="@+id/like"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_heart_empty"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="20dp"/>
-                </RelativeLayout>
-            </androidx.appcompat.widget.Toolbar>
+                    <TextView
+                        android:id="@+id/overview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/md_grey_500"
+                        android:textSize="12sp"
+                        android:text="@{viewmodel.movieDetailData.overview}"
+                        app:layout_constraintTop_toBottomOf="@+id/release_date"
+                        app:layout_constraintStart_toEndOf="@id/photo"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="110dp"/>
 
-            <ImageView
-                android:id="@+id/backdrop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"/>
+                    <TextView
+                        android:id="@+id/review_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/md_grey_500"
+                        android:textSize="12sp"
+                        android:text="@string/review"
+                        app:layout_constraintTop_toBottomOf="@+id/overview"
+                        app:layout_constraintStart_toEndOf="@id/photo"
+                        android:layout_marginTop="10dp"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_white_1000"
-                android:padding="10dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginStart="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_marginEnd="2dp"
-                android:elevation="4dp">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="80dp"
+                        android:visibility="@{safeUnbox(viewmodel.loading) ? View.GONE : View.VISIBLE}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@+id/review_label"/>
 
-                <ImageView
-                    android:id="@+id/photo"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_photo"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="10dp"/>
-
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_bold"
-                    android:textColor="@color/md_grey_500"
-                    android:textSize="16sp"
-                    android:text="@{viewmodel.movieDetailData.title}"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/photo"
-                    android:layout_marginStart="110dp" />
-
-                <TextView
-                    android:id="@+id/rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_bold"
-                    android:textColor="@color/md_grey_500"
-                    android:textSize="16sp"
-                    android:text="@{'(' + viewmodel.movieDetailData.voteAverage.toString() + ')'}"
-                    app:layout_constraintTop_toBottomOf="@+id/title"
-                    app:layout_constraintStart_toEndOf="@id/photo"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginStart="10dp" />
-
-                <TextView
-                    android:id="@+id/genre"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/md_grey_500"
-                    android:textSize="12sp"
-                    android:text="@{viewmodel.genre}"
-                    android:maxLines="3"
-                    app:layout_constraintTop_toBottomOf="@+id/rating"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginStart="110dp"/>
-
-                <TextView
-                    android:id="@+id/release_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/md_grey_500"
-                    android:textSize="14sp"
-                    android:text="@{viewmodel.movieDetailData.releaseDate}"
-                    app:layout_constraintTop_toBottomOf="@+id/genre"
-                    app:layout_constraintStart_toEndOf="@id/photo"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginStart="10dp"/>
-
-                <TextView
-                    android:id="@+id/overview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/md_grey_500"
-                    android:textSize="12sp"
-                    android:text="@{viewmodel.movieDetailData.overview}"
-                    app:layout_constraintTop_toBottomOf="@+id/release_date"
-                    app:layout_constraintStart_toEndOf="@id/photo"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="110dp"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </ScrollView>
     </FrameLayout>
 </layout>

@@ -10,4 +10,7 @@
     <string name="popular">Popular</string>
     <string name="top_rated">Top Rated</string>
     <string name="now_playing">Now Playing</string>
+
+    <!--Menu Detail-->
+    <string name="review">Reviews : </string>
 </resources>
