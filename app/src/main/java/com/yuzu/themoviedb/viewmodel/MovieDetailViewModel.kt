@@ -3,6 +3,7 @@ package com.yuzu.themoviedb.viewmodel
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,7 +20,6 @@ import com.yuzu.themoviedb.model.State
 import com.yuzu.themoviedb.model.Status
 import com.yuzu.themoviedb.model.data.MovieDetail
 import com.yuzu.themoviedb.model.data.ReviewData
-import com.yuzu.themoviedb.model.datasource.MovieDataSourceFactory
 import com.yuzu.themoviedb.model.datasource.ReviewDataSource
 import com.yuzu.themoviedb.model.datasource.ReviewDataSourceFactory
 import com.yuzu.themoviedb.model.repository.MovieRepository
@@ -57,6 +57,7 @@ class MovieDetailViewModel: ViewModel() {
 
     var genre = MutableLiveData<String>()
     var id = MutableLiveData<Int>()
+
     lateinit var reviewPagedList: LiveData<PagedList<ReviewData>>
     private val pageSize = 4
 
@@ -70,11 +71,11 @@ class MovieDetailViewModel: ViewModel() {
         reviewPagedList = Transformations.switchMap(id) { input ->
             return@switchMap if (input == null || input == 0) {
                 //check if the current value is empty load all data else search
-                LivePagedListBuilder(reviewDataSourceFactory!!, config).build()
+                LivePagedListBuilder(reviewDataSourceFactory, config).build()
 
             } else {
                 reviewDataSourceFactory = ReviewDataSourceFactory(movieRepository, compositeDisposable, input)
-                LivePagedListBuilder(reviewDataSourceFactory!!, config).build()
+                LivePagedListBuilder(reviewDataSourceFactory, config).build()
             }
         }
     }
@@ -209,5 +210,19 @@ class MovieDetailViewModel: ViewModel() {
             loading.value = true
             movieData.value = id
         }*/
+    }
+
+    fun likeOnClick(like: ImageView, unlike: ImageView) {
+        if (unlike.visibility == View.VISIBLE) {
+            unlike.visibility = View.GONE
+        } else {
+            unlike.visibility = View.VISIBLE
+        }
+
+        if (like.visibility == View.VISIBLE) {
+            like.visibility = View.GONE
+        } else {
+            like.visibility = View.VISIBLE
+        }
     }
 }

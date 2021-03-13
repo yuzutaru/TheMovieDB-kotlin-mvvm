@@ -52,6 +52,7 @@ class MovieDetailFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        likeOnClick()
         backOnClick()
         onBackPressed()
         initAdapter()
@@ -93,6 +94,16 @@ class MovieDetailFragment: Fragment() {
             //footerBinding.progressBar.visibility = if (viewModel.listIsEmpty() && state == State.LOADING) View.VISIBLE else View.GONE
             //footerBinding.txtError.visibility = if (viewModel.listIsEmpty() && state == State.ERROR) View.VISIBLE else View.GONE
         })
+    }
+
+    private fun likeOnClick() {
+        binding.like.setOnClickListener {
+            viewModel.likeOnClick(binding.like, binding.unlike)
+        }
+
+        binding.unlike.setOnClickListener {
+            viewModel.likeOnClick(binding.like, binding.unlike)
+        }
     }
 
     private fun backOnClick() {
