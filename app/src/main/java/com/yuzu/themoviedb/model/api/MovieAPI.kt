@@ -2,6 +2,7 @@ package com.yuzu.themoviedb.model.api
 
 import com.yuzu.themoviedb.model.data.Movie
 import com.yuzu.themoviedb.model.data.MovieDetail
+import com.yuzu.themoviedb.model.data.Review
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -35,4 +36,10 @@ interface MovieAPI {
      * */
     @GET(value = "movie/{id}")
     fun details(@Path("id") id: Int, @Query("api_key") apiKey: String): Single<MovieDetail>
+
+    /**
+     * Reviews
+     * */
+    @GET(value = "movie/{id}/reviews")
+    fun reviews(@Path("id") id: Int, @Query("page") page: Int, @Query("api_key") apiKey: String): Single<Review>
 }

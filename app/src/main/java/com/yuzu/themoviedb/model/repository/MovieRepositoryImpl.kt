@@ -3,6 +3,7 @@ package com.yuzu.themoviedb.model.repository
 import com.yuzu.themoviedb.model.api.MovieAPI
 import com.yuzu.themoviedb.model.data.Movie
 import com.yuzu.themoviedb.model.data.MovieDetail
+import com.yuzu.themoviedb.model.data.Review
 import io.reactivex.Single
 
 /**
@@ -24,5 +25,9 @@ class MovieRepositoryImpl(private val api: MovieAPI): MovieRepository {
 
     override fun details(id: Int, apiKey: String): Single<MovieDetail> {
         return api.details(id, apiKey)
+    }
+
+    override fun reviews(id: Int, page: Int, apiKey: String): Single<Review> {
+        return api.reviews(id, page, apiKey)
     }
 }
