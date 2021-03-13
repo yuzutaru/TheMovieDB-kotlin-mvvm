@@ -6,7 +6,7 @@
     <string name="no_connection">No internet connection</string>
 
     <!--Item Menu-->
-    <string name="favourite">Favourite</string>
+    <string name="favorite">Favorite</string>
     <string name="popular">Popular</string>
     <string name="top_rated">Top Rated</string>
     <string name="now_playing">Now Playing</string>

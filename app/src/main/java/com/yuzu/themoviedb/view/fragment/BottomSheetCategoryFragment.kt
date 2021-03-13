@@ -35,6 +35,11 @@ class BottomSheetCategoryFragment: BottomSheetDialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        binding.favorite.setOnClickListener {
+            (parentFragment as MovieFragment).favoriteOnClick()
+            dismiss()
+        }
+
         binding.popular.setOnClickListener {
             (parentFragment as MovieFragment).popularOnClick()
             dismiss()

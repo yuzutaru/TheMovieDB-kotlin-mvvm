@@ -95,6 +95,11 @@ class MovieFragment: Fragment() {
         }
     }
 
+    fun favoriteOnClick() {
+        Log.d(LOG_TAG, "popUpOnItemClick:FAVORITE OnClick")
+        viewModel.type.value = ARGUMENT_FAVORITE
+    }
+
     fun popularOnClick() {
         Log.d(LOG_TAG, "popUpOnItemClick:POPULAR OnClick")
         viewModel.type.value = ARGUMENT_POPULAR

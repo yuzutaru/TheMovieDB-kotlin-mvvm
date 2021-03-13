@@ -24,7 +24,7 @@ class SkeletonViewHolder(view: View): RecyclerView.ViewHolder(view) {
     fun bind(status: State?) {
         Log.e("skeleton", "bind:State = $status")
         binding.skeletonLayout.visibility = if (status == State.LOADING) View.VISIBLE else View.GONE
-        binding.txtError.visibility = if (status == State.ERROR) View.VISIBLE else View.GONE
+        binding.txtError.visibility = if (status == State.ERROR || status == State.DONE) View.VISIBLE else View.GONE
 
         binding.skeletonConstraint.isEnabled = status == State.LOADING
     }

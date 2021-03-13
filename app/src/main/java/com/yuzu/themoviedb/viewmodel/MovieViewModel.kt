@@ -16,6 +16,7 @@ import com.yuzu.themoviedb.model.State
 import com.yuzu.themoviedb.model.data.MovieData
 import com.yuzu.themoviedb.model.datasource.MovieDataSource
 import com.yuzu.themoviedb.model.datasource.MovieDataSourceFactory
+import com.yuzu.themoviedb.model.repository.MovieDBRepository
 import com.yuzu.themoviedb.model.repository.MovieRepository
 import com.yuzu.themoviedb.view.adapter.MovieAdapter
 import io.reactivex.disposables.CompositeDisposable
@@ -30,6 +31,7 @@ class MovieViewModel: ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
     private val movieRepository: MovieRepository
+    private val movieDBRepository: MovieDBRepository
     private var movieDataSourceFactory: MovieDataSourceFactory? = null
 
     private val movieData = MutableLiveData<Int>()
@@ -42,8 +44,9 @@ class MovieViewModel: ViewModel() {
     init {
         val appComponent = TheMovieDBApplication.instance.getAppComponent()
         movieRepository = appComponent.movieRepository()
+        movieDBRepository = appComponent.movieDBRepository()
 
-        movieDataSourceFactory = MovieDataSourceFactory(movieRepository, compositeDisposable, "")
+        movieDataSourceFactory = MovieDataSourceFactory(movieRepository, movieDBRepository, compositeDisposable, "")
         val config = PagedList.Config.Builder().setPageSize(pageSize).setInitialLoadSizeHint(pageSize).setEnablePlaceholders(false).build()
         //moviePagedList = LivePagedListBuilder(movieDataSourceFactory, config).build()
 
@@ -53,7 +56,7 @@ class MovieViewModel: ViewModel() {
                 LivePagedListBuilder(movieDataSourceFactory!!, config).build()
 
             } else {
-                movieDataSourceFactory = MovieDataSourceFactory(movieRepository, compositeDisposable, input)
+                movieDataSourceFactory = MovieDataSourceFactory(movieRepository, movieDBRepository, compositeDisposable, input)
                 LivePagedListBuilder(movieDataSourceFactory!!, config).build()
             }
         }
