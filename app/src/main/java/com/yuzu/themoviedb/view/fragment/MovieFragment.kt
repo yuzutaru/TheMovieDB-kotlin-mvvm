@@ -52,6 +52,7 @@ class MovieFragment: Fragment() {
         categoryOnClick()
         initAdapter()
         initState()
+        likeOnClick()
 
         viewModel.movieDataLive().observe(viewLifecycleOwner, { movieDetail(it) })
     }
@@ -113,6 +114,18 @@ class MovieFragment: Fragment() {
     fun nowPlayingOnClick() {
         Log.d(LOG_TAG, "popUpOnItemClick:NOW_PLAYING OnClick")
         viewModel.type.value = ARGUMENT_NOW_PLAYING
+    }
+
+    private fun likeOnClick() {
+        binding.like.setOnClickListener {
+            viewModel.likeOnClick(binding.like, binding.unlike)
+            viewModel.type.value = ARGUMENT_POPULAR
+        }
+
+        binding.unlike.setOnClickListener {
+            viewModel.likeOnClick(binding.like, binding.unlike)
+            viewModel.type.value = ARGUMENT_FAVORITE
+        }
     }
 
     private fun movieDetail(data: Int) {

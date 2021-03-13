@@ -51,12 +51,24 @@
                         android:layout_centerVertical="true"/>
 
                     <ImageView
+                        android:id="@+id/unlike"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:adjustViewBounds="true"
                         android:src="@drawable/ic_heart_empty"
                         android:layout_centerVertical="true"
-                        android:layout_alignParentEnd="true" />
+                        android:layout_alignParentEnd="true"
+                        android:visibility="visible"/>
+
+                    <ImageView
+                        android:id="@+id/like"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_heart"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:visibility="gone"/>
                 </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>
 

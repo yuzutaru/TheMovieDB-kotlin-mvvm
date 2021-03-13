@@ -2,6 +2,7 @@ package com.yuzu.themoviedb.viewmodel
 
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.LiveData
@@ -112,6 +113,20 @@ class MovieViewModel: ViewModel() {
         if (id != null) {
             loading.value = true
             movieData.value = id
+        }
+    }
+
+    fun likeOnClick(like: ImageView, unlike: ImageView) {
+        if (unlike.visibility == View.VISIBLE) {
+            unlike.visibility = View.GONE
+        } else {
+            unlike.visibility = View.VISIBLE
+        }
+
+        if (like.visibility == View.VISIBLE) {
+            like.visibility = View.GONE
+        } else {
+            like.visibility = View.VISIBLE
         }
     }
 }
