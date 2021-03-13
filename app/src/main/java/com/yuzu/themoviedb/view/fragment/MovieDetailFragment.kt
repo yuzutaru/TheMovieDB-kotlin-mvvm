@@ -99,10 +99,12 @@ class MovieDetailFragment: Fragment() {
     private fun likeOnClick() {
         binding.like.setOnClickListener {
             viewModel.likeOnClick(binding.like, binding.unlike)
+            viewModel.deleteMovieData()
         }
 
         binding.unlike.setOnClickListener {
             viewModel.likeOnClick(binding.like, binding.unlike)
+            viewModel.insertMovieData()
         }
     }
 

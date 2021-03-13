@@ -67,10 +67,6 @@ class MovieViewHolder(private val viewModel: ViewModel, view: View): RecyclerVie
             binding.releaseDate.text = data.createdAt
             binding.overview.maxLines = Int.MAX_VALUE
             binding.overview.text = data.content
-
-            binding.background.setOnClickListener {
-                (viewModel as MovieDetailViewModel).itemOnClick(data.id)
-            }
         }
     }
 }

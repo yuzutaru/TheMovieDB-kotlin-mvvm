@@ -18,10 +18,12 @@ import com.yuzu.themoviedb.model.NoNetworkException
 import com.yuzu.themoviedb.model.Response
 import com.yuzu.themoviedb.model.State
 import com.yuzu.themoviedb.model.Status
+import com.yuzu.themoviedb.model.data.MovieData
 import com.yuzu.themoviedb.model.data.MovieDetail
 import com.yuzu.themoviedb.model.data.ReviewData
 import com.yuzu.themoviedb.model.datasource.ReviewDataSource
 import com.yuzu.themoviedb.model.datasource.ReviewDataSourceFactory
+import com.yuzu.themoviedb.model.repository.MovieDBRepository
 import com.yuzu.themoviedb.model.repository.MovieRepository
 import com.yuzu.themoviedb.utils.API_KEY
 import com.yuzu.themoviedb.utils.ARGUMENT_MOVIE_DATA
@@ -41,6 +43,7 @@ class MovieDetailViewModel: ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
     private val movieRepository: MovieRepository
+    private val movieDBRepository: MovieDBRepository
     private var reviewDataSourceFactory: ReviewDataSourceFactory
 
     private val movieId = MutableLiveData<Int>()
@@ -64,13 +67,13 @@ class MovieDetailViewModel: ViewModel() {
     init {
         val appComponent = TheMovieDBApplication.instance.getAppComponent()
         movieRepository = appComponent.movieRepository()
+        movieDBRepository = appComponent.movieDBRepository()
+
         reviewDataSourceFactory = ReviewDataSourceFactory(movieRepository, compositeDisposable, 0)
         val config = PagedList.Config.Builder().setPageSize(pageSize).setInitialLoadSizeHint(pageSize).setEnablePlaceholders(false).build()
-        //reviewPagedList = LivePagedListBuilder(reviewDataSourceFactory, config).build()
 
         reviewPagedList = Transformations.switchMap(id) { input ->
             return@switchMap if (input == null || input == 0) {
-                //check if the current value is empty load all data else search
                 LivePagedListBuilder(reviewDataSourceFactory, config).build()
 
             } else {
@@ -205,13 +208,6 @@ class MovieDetailViewModel: ViewModel() {
         }
     }
 
-    fun itemOnClick(id: String?) {
-        /*if (id != null) {
-            loading.value = true
-            movieData.value = id
-        }*/
-    }
-
     fun likeOnClick(like: ImageView, unlike: ImageView) {
         if (unlike.visibility == View.VISIBLE) {
             unlike.visibility = View.GONE
@@ -224,5 +220,42 @@ class MovieDetailViewModel: ViewModel() {
         } else {
             like.visibility = View.VISIBLE
         }
+    }
+
+    private fun setMovieData(): MovieData? {
+        var result: MovieData? = null
+        if (movieDetailData.value != null) {
+            val data = MovieData(
+                if (movieDetailData.value!!.id != null) movieDetailData.value!!.id!! else 0,
+                if (movieDetailData.value!!.adult != null) movieDetailData.value!!.adult else false,
+                if (movieDetailData.value!!.backdropPath != null) movieDetailData.value!!.backdropPath else "",
+                null,
+                if (movieDetailData.value!!.originalLanguage != null) movieDetailData.value!!.originalLanguage else "",
+                if (movieDetailData.value!!.originalTitle != null) movieDetailData.value!!.originalTitle else "",
+                null,
+                null,
+                if (movieDetailData.value!!.posterPath != null) movieDetailData.value!!.posterPath else "",
+                if (movieDetailData.value!!.releaseDate != null) movieDetailData.value!!.releaseDate else "",
+                if (movieDetailData.value!!.title != null) movieDetailData.value!!.title else "",
+                if (movieDetailData.value!!.video != null) movieDetailData.value!!.video else false,
+                if (movieDetailData.value!!.voteAverage != null) movieDetailData.value!!.voteAverage else 0.0,
+                if (movieDetailData.value!!.voteCount != null) movieDetailData.value!!.voteCount else 0)
+
+            result = data
+        }
+
+        return result
+    }
+
+    fun insertMovieData() {
+        val data = setMovieData()
+        if (data != null)
+            movieDBRepository.insert(data)
+    }
+
+    fun deleteMovieData() {
+        val data = setMovieData()
+        if (data != null)
+            movieDBRepository.delete(data)
     }
 }

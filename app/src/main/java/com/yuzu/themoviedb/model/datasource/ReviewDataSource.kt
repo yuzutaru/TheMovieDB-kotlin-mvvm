@@ -54,7 +54,6 @@ class ReviewDataSource(private val movieRepository: MovieRepository, private val
 
                         } else {
                             updateState(State.ERROR)
-                            Log.e("reviewDS", "loadAfter:MLEBU KENE")
                         }
                     },
                     {
@@ -65,7 +64,7 @@ class ReviewDataSource(private val movieRepository: MovieRepository, private val
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, ReviewData>) {
-        TODO("Not yet implemented")
+
     }
 
     private fun updateState(state: State) {
